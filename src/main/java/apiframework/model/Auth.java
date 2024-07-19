@@ -1,4 +1,4 @@
-package com.example.apiframework.model;
+package com.apiframework.model;
 
 public class Auth {
     private String username;

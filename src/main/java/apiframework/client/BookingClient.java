@@ -1,6 +1,6 @@
-package com.example.apiframework.client;
+package com.apiframework.client;
 
-import com.example.apiframework.model.Booking;
+import com.apiframework.model.Booking;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 

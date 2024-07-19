@@ -1,6 +1,6 @@
-package com.example.apiframework.client;
+package com.apiframework.client;
 
-import com.example.apiframework.model.Auth;
+import com.apiframework.model.Auth;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 

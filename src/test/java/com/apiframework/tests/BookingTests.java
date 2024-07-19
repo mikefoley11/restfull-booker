@@ -1,10 +1,10 @@
-package com.example.apiframework.tests;
+package com.apiframework.tests;
 
-import com.example.apiframework.client.BookingClient;
-import com.example.apiframework.client.AuthClient;
-import com.example.apiframework.model.Booking;
-import com.example.apiframework.model.BookingDates;
-import com.example.apiframework.model.Auth;
+import com.apiframework.client.BookingClient;
+import com.apiframework.client.AuthClient;
+import com.apiframework.model.Booking;
+import com.apiframework.model.BookingDates;
+import com.apiframework.model.Auth;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
