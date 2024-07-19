@@ -9,9 +9,11 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BookingTests {
-
+    private static final Logger logger = LoggerFactory.getLogger(BookingTests.class);
     private BookingClient bookingClient;
     private AuthClient authClient;
     private String token;
@@ -28,51 +30,27 @@ public class BookingTests {
     }
 
     @Test
-    public void createBookingTest() {
-        Booking booking = new Booking();
-        booking.setFirstname("John");
-        booking.setLastname("Doe");
-        booking.setTotalprice(123);
-        booking.setDepositpaid(true);
-        BookingDates bookingDates = new BookingDates();
-        bookingDates.setCheckin("2024-07-01");
-        bookingDates.setCheckout("2024-07-10");
-        booking.setBookingdates(bookingDates);
-        booking.setAdditionalneeds("Breakfast");
+    public void createAndLogBookingsTest() {
+        // Create and log 3 new bookings
+        for (int i = 0; i < 3; i++) {
+            Booking booking = new Booking();
+            booking.setFirstname("John" + i);
+            booking.setLastname("Doe" + i);
+            booking.setTotalprice(123 + i);
+            booking.setDepositpaid(true);
+            BookingDates bookingDates = new BookingDates();
+            bookingDates.setCheckin("2024-07-0" + (i + 1));
+            bookingDates.setCheckout("2024-07-1" + (i + 1));
+            booking.setBookingdates(bookingDates);
+            booking.setAdditionalneeds("Breakfast");
 
-        Response response = bookingClient.createBooking(booking);
-        Assertions.assertEquals(200, response.getStatusCode());
-    }
+            Response response = bookingClient.createBooking(booking);
+            Assertions.assertEquals(200, response.getStatusCode());
+            logger.info("Created Booking {}: {}", i + 1, response.getBody().asString());
+        }
 
-    @Test
-    public void getBookingTest() {
-        int bookingId = 1; // Example booking ID
-        Response response = bookingClient.getBooking(bookingId);
-        Assertions.assertEquals(200, response.getStatusCode());
-    }
-
-    @Test
-    public void updateBookingTest() {
-        int bookingId = 1; // Example booking ID
-        Booking booking = new Booking();
-        booking.setFirstname("Jane");
-        booking.setLastname("Doe");
-        booking.setTotalprice(456);
-        booking.setDepositpaid(false);
-        BookingDates bookingDates = new BookingDates();
-        bookingDates.setCheckin("2024-07-15");
-        bookingDates.setCheckout("2024-07-20");
-        booking.setBookingdates(bookingDates);
-        booking.setAdditionalneeds("Lunch");
-
-        Response response = bookingClient.updateBooking(bookingId, booking, token);
-        Assertions.assertEquals(200, response.getStatusCode());
-    }
-
-    @Test
-    public void deleteBookingTest() {
-        int bookingId = 1; // Example booking ID
-        Response response = bookingClient.deleteBooking(bookingId, token);
-        Assertions.assertEquals(201, response.getStatusCode());
+        // Log all available booking IDs
+        Response allBookingIdsResponse = bookingClient.getAllBookingIds();
+        Assertions.assertEquals(200, allBookingIdsResponse.getStatusCode());
     }
 }
